@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="theme-toggle.css" />
+  <script src="theme-toggle.js" defer></script>
 </head>
 <body>
   <div class="orb1"></div>
@@ -21,6 +23,12 @@
       <li><a href="#achievements">Achievements</a></li>
       <li><a href="#connect">Connect</a></li>
     </ul>
+    <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+      <span class="theme-toggle-track" aria-hidden="true">
+        <span class="theme-toggle-thumb"></span>
+      </span>
+      <span class="theme-toggle-label">Dark</span>
+    </button>
   </nav>
 
   <main>

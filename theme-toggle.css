@@ -1,0 +1,102 @@
+:root[data-theme="light"] {
+  --bg: #f6fafc;
+  --surface: #ffffff;
+  --surface2: #edf4f7;
+  --border: #d4e2e8;
+  --accent: #007a99;
+  --accent2: #6d28d9;
+  --text: #0e1b24;
+  --muted: #5d7180;
+  --muted2: #a8bcc7;
+  --green: #007f5f;
+  --orange: #c2410c;
+}
+
+:root[data-theme="light"] body::before {
+  opacity: 0.55;
+}
+
+:root[data-theme="light"] nav {
+  background: rgba(246, 250, 252, 0.86);
+}
+
+:root[data-theme="light"] .orb1 {
+  background: radial-gradient(circle, rgba(0, 122, 153, 0.14) 0%, transparent 70%);
+}
+
+:root[data-theme="light"] .orb2 {
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.1) 0%, transparent 70%);
+}
+
+:root[data-theme="light"] .btn-primary:hover {
+  background: #0e1b24;
+  color: #ffffff;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 6px 10px 6px 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.theme-toggle-track {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  flex: 0 0 auto;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.theme-toggle-thumb::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+:root[data-theme="light"] .theme-toggle-thumb {
+  transform: translateX(24px);
+}
+
+:root[data-theme="light"] .theme-toggle-thumb::before {
+  inset: 5px;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    padding-right: 6px;
+  }
+
+  .theme-toggle-label {
+    display: none;
+  }
+}
