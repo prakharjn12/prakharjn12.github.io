@@ -3,26 +3,999 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Prakhar Jain</title>
+  <title>Prakhar Jain — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #080c10;
+      --surface: #0d1219;
+      --surface2: #121920;
+      --border: #1e2a35;
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --text: #e8f4f8;
+      --muted: #4a6274;
+      --muted2: #2a3d4d;
+      --green: #00e5a0;
+      --orange: #ff6b35;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Animated background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow orbs */
+    .orb1, .orb2 {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      top: -100px; left: -100px;
+      animation: orbFloat 12s ease-in-out infinite;
+    }
+    .orb2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%);
+      bottom: 100px; right: -50px;
+      animation: orbFloat 15s ease-in-out infinite reverse;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, 40px); }
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(8,12,16,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* MAIN LAYOUT */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-child { border-bottom: none; }
+
+    /* HERO */
+    #hero {
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 120px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.3s forwards;
+    }
+
+    h1 .accent { color: var(--accent); }
+    h1 .dim { color: var(--muted); }
+
+    .hero-desc {
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+
+    .hero-desc strong { color: var(--text); }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--accent);
+      color: var(--bg);
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Stats row */
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.6s forwards;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {}
+    .stat-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+
+    .section-num {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+
+    h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* EXPERIENCE */
+    .exp-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform 0.3s;
+      transform-origin: bottom;
+    }
+
+    .exp-card:hover { border-color: var(--muted2); }
+    .exp-card:hover::before { transform: scaleY(1); }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .exp-company {
+      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .exp-period {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 1px;
+      background: rgba(0,212,255,0.08);
+      padding: 4px 12px;
+      border: 1px solid rgba(0,212,255,0.2);
+    }
+
+    .exp-role {
+      font-size: 13px;
+      color: var(--green);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .exp-location {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .exp-bullets li {
+      color: var(--muted);
+      font-size: 13px;
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.7;
+    }
+
+    .exp-bullets li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .exp-bullets li strong { color: var(--text); }
+
+    .exp-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .tech-tag {
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .tech-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+
+    .skill-group-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-pill {
+      font-size: 12px;
+      padding: 5px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .skill-pill:hover {
+      background: rgba(0,212,255,0.05);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* CODING PROFILES */
+    .coding-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2px;
+    }
+
+    .coding-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px;
+      text-decoration: none;
+      display: block;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .coding-card::after {
+      content: '↗';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: var(--muted2);
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+
+    .coding-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .coding-card:hover::after {
+      color: var(--accent);
+      transform: translate(2px, -2px);
+    }
+
+    .coding-platform {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .coding-rating {
+      font-family: 'Inter', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .coding-rank {
+      font-size: 13px;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .coding-desc {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ACHIEVEMENTS */
+    .achieve-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2px;
+    }
+
+    .achieve-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+
+    .achieve-card:hover { border-color: var(--muted2); }
+
+    .achieve-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #0d1117;
-      font-family: sans-serif;
-      color: white;
     }
-    h1 { font-size: 3rem; margin: 0; }
-    p  { color: #8b949e; margin-top: 0.5rem; text-align: center; }
+
+    .achieve-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .achieve-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .achieve-desc strong { color: var(--orange); }
+
+    /* HOBBIES */
+    .hobbies-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hobby-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .hobby-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .hobby-emoji { font-size: 20px; }
+
+    /* TOPMATE / CONNECT */
+    .connect-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .connect-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(0,212,255,0.05) 0%, transparent 60%);
+    }
+
+    .connect-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .connect-sub {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 480px;
+      margin: 0 auto 40px;
+      position: relative;
+    }
+
+    .connect-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      main { padding: 0 20px; }
+      section { padding: 70px 0; }
+      .connect-box { padding: 36px 24px; }
+      .connect-title { font-size: 32px; }
+      .hero-stats { gap: 28px; }
+    }
   </style>
 </head>
 <body>
-  <div style="text-align:center">
-    <h1>👋 Hello, I'm Prakhar</h1>
-    <p>Portfolio coming soon...</p>
-  </div>
+  <div class="orb1"></div>
+  <div class="orb2"></div>
+
+  <nav>
+    <div class="nav-logo">PJ</div>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#coding">Coding</a></li>
+      <li><a href="#achievements">Achievements</a></li>
+      <li><a href="#connect">Connect</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-tag">Software Engineer · Microsoft · MNNIT Allahabad</div>
+      <h1>Prakhar<br><span class="accent">Jain</span><span class="dim">.</span></h1>
+      <p class="hero-desc">
+        Building high-scale systems at <strong>Microsoft</strong> — from AI Trip Planners serving <strong>1M+ users</strong> to Windows Copilot infrastructure. 
+        Competitive programmer, ICPC Regionalist, and systems thinker.
+      </p>
+      <div class="hero-actions">
+        <a href="https://topmate.io/prakhar_jain/" target="_blank" class="btn-primary">Book a 1:1 on Topmate ↗</a>
+        <a href="https://linkedin.com/in/prakharjain211" target="_blank" class="btn-ghost">LinkedIn ↗</a>
+        <a href="https://github.com/prakharjn12" target="_blank" class="btn-ghost">GitHub ↗</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">2+</div>
+          <div class="stat-label">Years at Microsoft</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">$1.5M+</div>
+          <div class="stat-label">Revenue Impact</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2411</div>
+          <div class="stat-label">LeetCode Rating</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3×</div>
+          <div class="stat-label">ICPC Regionalist</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-header reveal">
+        <span class="section-num">01</span>
+        <h2>Experience</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="exp-grid">
+
+        <div class="exp-card reveal">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">Microsoft</div>
+              <div class="exp-role">Software Engineer I — M365 Windows Copilot</div>
+              <div class="exp-location">Hyderabad, India</div>
+            </div>
+            <div class="exp-period">May 2025 – Present</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Engineered backend-driven test pipelines for authentication & voice systems, increasing test coverage by <strong>40%</strong></li>
+            <li>Built microservice-driven fullstack In-App Update system boosting latest build adoption from <strong>80% → 97%</strong></li>
+            <li>Designed modular Splash Screen system reducing P95 latency from <strong>2.5s → 1.0s (60% improvement)</strong></li>
+            <li>Built internal tooling for speech-model evaluation processing <strong>500K+ test sessions daily</strong>, 3× throughput increase</li>
+          </ul>
+          <div class="exp-tech">
+            <span class="tech-tag">C#</span><span class="tech-tag">C++</span><span class="tech-tag">.NET</span>
+            <span class="tech-tag">React</span><span class="tech-tag">Kusto</span><span class="tech-tag">Python</span>
+            <span class="tech-tag">Azure DevOps</span><span class="tech-tag">Distributed Telemetry</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">Microsoft</div>
+              <div class="exp-role">Software Engineer I — Bing Travel Team</div>
+              <div class="exp-location">Hyderabad, India</div>
+            </div>
+            <div class="exp-period">Jul 2023 – Apr 2025</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Built high-scale REST APIs powering AI Trip Planner for <strong>1M+ monthly users</strong>, contributing to <strong>$500K+ annual revenue</strong></li>
+            <li>Improved MSN Travel backend content-delivery pipeline, increasing SEO visibility by <strong>33%</strong></li>
+            <li>Implemented async LLM + vision-model pipelines for multilingual Travel Theme Cards, improving engagement by <strong>20%</strong></li>
+            <li>Generated <strong>$1M+ ARR</strong> by developing Property Promotional Ads on the Spotlight Page</li>
+            <li>Achieved <strong>98% accessibility score</strong> (WCAG 2.1) and <strong>80% unit test coverage</strong></li>
+          </ul>
+          <div class="exp-tech">
+            <span class="tech-tag">C#</span><span class="tech-tag">React</span><span class="tech-tag">Azure Cosmos DB</span>
+            <span class="tech-tag">MySQL</span><span class="tech-tag">Docker</span><span class="tech-tag">Azure DevOps</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">Microsoft</div>
+              <div class="exp-role">Software Engineer Intern</div>
+              <div class="exp-location">Hyderabad, India</div>
+            </div>
+            <div class="exp-period">May 2022 – Jun 2022</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Implemented PowerMgmt telemetry using MySQL across <strong>100K+ devices</strong></li>
+            <li>Improved deployment time by <strong>25%</strong> by optimizing ADO pipeline workflows</li>
+            <li>Developed Gateway Services for Security & Compliance team supporting <strong>10M+ enterprise users</strong></li>
+          </ul>
+          <div class="exp-tech">
+            <span class="tech-tag">C#</span><span class="tech-tag">MySQL</span><span class="tech-tag">PowerBI</span>
+            <span class="tech-tag">Node.js</span><span class="tech-tag">Azure</span>
+          </div>
+        </div>
+
+        <div class="exp-card reveal">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">HackerEarth</div>
+              <div class="exp-role">Problem Setter Intern</div>
+              <div class="exp-location">Remote</div>
+            </div>
+            <div class="exp-period">Jul 2022 – Dec 2022</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Authored and validated <strong>50+ algorithmic problems</strong> covering advanced DSA topics</li>
+            <li>Built scalable test cases and I/O generators for <strong>100K+ monthly users</strong></li>
+          </ul>
+          <div class="exp-tech">
+            <span class="tech-tag">DSA</span><span class="tech-tag">Algorithms</span><span class="tech-tag">Problem Design</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-header reveal">
+        <span class="section-num">02</span>
+        <h2>Skills</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-pill">C#</span><span class="skill-pill">C++</span>
+            <span class="skill-pill">Python</span><span class="skill-pill">Java</span>
+            <span class="skill-pill">TypeScript</span><span class="skill-pill">JavaScript</span>
+            <span class="skill-pill">SQL</span><span class="skill-pill">HTML/CSS</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Frameworks & Libraries</div>
+          <div class="skill-tags">
+            <span class="skill-pill">.NET</span><span class="skill-pill">React</span>
+            <span class="skill-pill">REST APIs</span><span class="skill-pill">Jest</span>
+            <span class="skill-pill">Node.js</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Cloud & Tools</div>
+          <div class="skill-tags">
+            <span class="skill-pill">Azure DevOps</span><span class="skill-pill">Azure Cosmos DB</span>
+            <span class="skill-pill">Docker</span><span class="skill-pill">MySQL</span>
+            <span class="skill-pill">Git</span><span class="skill-pill">PowerBI</span>
+            <span class="skill-pill">Kusto</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Core CS</div>
+          <div class="skill-tags">
+            <span class="skill-pill">DSA</span><span class="skill-pill">System Design</span>
+            <span class="skill-pill">LLD / HLD</span><span class="skill-pill">OOP</span>
+            <span class="skill-pill">DBMS</span><span class="skill-pill">OS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CODING PROFILES -->
+    <section id="coding">
+      <div class="section-header reveal">
+        <span class="section-num">03</span>
+        <h2>Coding Profiles</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="coding-grid">
+        <a href="https://leetcode.com/prakharjain211" target="_blank" class="coding-card reveal">
+          <div class="coding-platform">LeetCode</div>
+          <div class="coding-rating">2411</div>
+          <div class="coding-rank">Guardian</div>
+          <div class="coding-desc">Top competitive programmers globally</div>
+        </a>
+        <a href="https://codeforces.com/profile/prakharjain211" target="_blank" class="coding-card reveal">
+          <div class="coding-platform">Codeforces</div>
+          <div class="coding-rating">1806</div>
+          <div class="coding-rank">Expert</div>
+          <div class="coding-desc">Algorithmic problem solving at scale</div>
+        </a>
+        <a href="https://www.codechef.com/users/prakharjain211" target="_blank" class="coding-card reveal">
+          <div class="coding-platform">CodeChef</div>
+          <div class="coding-rating">2366</div>
+          <div class="coding-rank">6 Star ★★★★★★</div>
+          <div class="coding-desc">Top rated competitive programmer</div>
+        </a>
+        <a href="https://github.com/prakharjn12" target="_blank" class="coding-card reveal">
+          <div class="coding-platform">GitHub</div>
+          <div class="coding-rating">50+</div>
+          <div class="coding-rank">Problems Authored</div>
+          <div class="coding-desc">HackerEarth Problem Setter</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements">
+      <div class="section-header reveal">
+        <span class="section-num">04</span>
+        <h2>Achievements</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="achieve-grid">
+        <div class="achieve-card reveal">
+          <div class="achieve-icon">🏆</div>
+          <div>
+            <div class="achieve-title">STCI Q3 Excellence Award</div>
+            <div class="achieve-desc">Received Microsoft's <strong>STCI Q3 Award</strong> for outstanding engineering impact</div>
+          </div>
+        </div>
+        <div class="achieve-card reveal">
+          <div class="achieve-icon">🌍</div>
+          <div>
+            <div class="achieve-title">ICPC Regionalist × 3</div>
+            <div class="achieve-desc">
+              <strong>Kanpur 2023</strong> Rank 25/72 · <strong>Amritapuri 2022</strong> Rank 27/85 · <strong>Kanpur 2021</strong> Rank 19/92
+            </div>
+          </div>
+        </div>
+        <div class="achieve-card reveal">
+          <div class="achieve-icon">🥈</div>
+          <div>
+            <div class="achieve-title">Hack36 — AIR #2</div>
+            <div class="achieve-desc">Secured <strong>All India Rank #2</strong> and College Rank #1 in Hack36 Annual WebDev Hackathon</div>
+          </div>
+        </div>
+        <div class="achieve-card reveal">
+          <div class="achieve-icon">🔍</div>
+          <div>
+            <div class="achieve-title">Google Kickstart 2022</div>
+            <div class="achieve-desc">Rank <strong>200 / 10,000+</strong> participants globally</div>
+          </div>
+        </div>
+        <div class="achieve-card reveal">
+          <div class="achieve-icon">⚡</div>
+          <div>
+            <div class="achieve-title">Google HashCode 2022</div>
+            <div class="achieve-desc">Rank <strong>604 / 20,000+</strong> teams worldwide</div>
+          </div>
+        </div>
+        <div class="achieve-card reveal">
+          <div class="achieve-icon">🎓</div>
+          <div>
+            <div class="achieve-title">MNNIT Allahabad — 8.52 CGPA</div>
+            <div class="achieve-desc">B.Tech Electrical Engineering from a premier NIT with strong academic record</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOBBIES -->
+    <section id="hobbies">
+      <div class="section-header reveal">
+        <span class="section-num">05</span>
+        <h2>Beyond Code</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="hobbies-row">
+        <div class="hobby-pill reveal"><span class="hobby-emoji">♟️</span> Chess</div>
+        <div class="hobby-pill reveal"><span class="hobby-emoji">📚</span> Reading</div>
+        <div class="hobby-pill reveal"><span class="hobby-emoji">✍️</span> Tech Writing</div>
+        <div class="hobby-pill reveal"><span class="hobby-emoji">🏃</span> Running</div>
+        <div class="hobby-pill reveal"><span class="hobby-emoji">🎯</span> Competitive Programming</div>
+        <div class="hobby-pill reveal"><span class="hobby-emoji">🌍</span> Travel</div>
+      </div>
+    </section>
+
+    <!-- CONNECT -->
+    <section id="connect">
+      <div class="connect-box reveal">
+        <div class="connect-title">Let's Talk<span style="color:var(--accent)">.</span></div>
+        <p class="connect-sub">Open to interesting conversations — system design, career advice, competitive programming, or just a quick chat.</p>
+        <div class="connect-links">
+          <a href="https://topmate.io/prakhar_jain/" target="_blank" class="btn-primary">Book on Topmate ↗</a>
+          <a href="mailto:prakharjain211@gmail.com" class="btn-ghost">Email ↗</a>
+          <a href="https://linkedin.com/in/prakharjain211" target="_blank" class="btn-ghost">LinkedIn ↗</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Built by Prakhar Jain · <a href="https://github.com/prakharjn12" style="color:var(--accent);text-decoration:none;">github.com/prakharjn12</a></p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
